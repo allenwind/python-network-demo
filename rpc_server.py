@@ -1,6 +1,7 @@
 from xmlrpc.server import SimpleXMLRPCServer
 
 #扩展成邮件服务器和其他命令式功能
+#手机关掉电脑  -->添加windows守护进程的方式
 
 class KeyValueServer:
     _rpc_methods_ = ['get', 'set', 'delete', 'exists', 'keys']
@@ -29,6 +30,12 @@ class KeyValueServer:
     def serve_forever(self):
         self._serv.serve_forever()
 
+def task():
+    pass
+
 if __name__ == '__main__':
+
     kvserv = KeyValueServer(('', 8080))
+    kvserv.register_function(task) #also useful
+
     kvserv.serve_forever()
