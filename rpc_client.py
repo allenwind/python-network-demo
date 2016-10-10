@@ -5,3 +5,6 @@ s.set
 s.get
 s.delete
 #...
+
+s.set('bin', b'bin')
+s.get('bin').data
