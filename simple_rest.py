@@ -62,6 +62,7 @@ if __name__ == '__main__':
     dispatcher.register('GET', '/simple', simple_response)
     dispatcher.register('GET', '/localtime', localtime)
 
-    httpd = make_server('', 8080, dispatcher)
+    address = ('localhost', 8080)
+    httpd = make_server(*address, dispatcher)
     httpd.serve_forever()
 
