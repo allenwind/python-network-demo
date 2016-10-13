@@ -2,6 +2,7 @@ import hmac
 import os
 
 from socket import socket, AF_INET, SOCK_STREAM
+from socketserver import TCPServer
 
 #both know secret_key
 
@@ -36,6 +37,27 @@ def echo_server(address):
 	while True:
 		client, addr = s.accept()
 		echo_handler(client)
+
+#use auth in TCPServer
+class TCPAuthServer(TCPServer):
+	_AUTH_LENGTH = 320
+	def verify_request(self, request, client_address):
+		message = os.urandom(_AUTH_LENGTH)
+		request.send(message)
+		hash_ = hmac.new(secret_key, message)
+		digest = hash_.digest()
+		response = request.recv(len(digest))
+		status = hmac.compare_digest(digest, response)
+		#add client_address to auth queue
+		return status
+
+class ThreadingTCPAuthServer(ThreadingMixIn, TCPAuthServer): pass
+
+
+
+
+
+
 
 if __name__ == '__main__':
 	secret_key = b'task'

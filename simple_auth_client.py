@@ -1,6 +1,8 @@
 import hmac
 from socket import socket, AF_INET, SOCK_STREAM
 
+#use in TCPServer class 
+
 
 def client_authenticate(connection, secret_key):
 	message = connection.recv(320)
