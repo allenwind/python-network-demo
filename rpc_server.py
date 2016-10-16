@@ -34,7 +34,7 @@ class KeyValueServer:
 def task():
     pass
 
-def start()
+def start():
     kvserv = KeyValueServer(('', 8080))
     kvserv.register_function(task) #also useful
 
