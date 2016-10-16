@@ -2,7 +2,7 @@ import ssl
 import os
 
 from socket import socket, AF_INET, SOCK_STREAM
-from xmlrpc.server import SimpleXMLRPCServer
+from xmlrpc.server import *
 
 KEYFILE = 'ssl_key.pem'
 CERTFILE = 'ssl_cert.pem'
@@ -35,7 +35,7 @@ def echo_server(address):
 
 class SSLMixin:
     def __init__(self, *args, keyfile=None, certfile=None, ca_certs=None,
-                 cert_reqs=ssl.NONE, **kwargs):
+                 cert_reqs=ssl.CERT_REQUIRED, **kwargs):
         self._keyfile = keyfile
         self._certfile = certfile
         self._ca_certs = ca_certs
