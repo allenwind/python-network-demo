@@ -3,6 +3,8 @@ import socket
 import socketserver
 import queue
 
+#add logging system
+
 class ProxyHandler(socketserver.StreamRequestHandler):
     disable_nagle_algorithm = True
     
@@ -44,7 +46,7 @@ class ProxyHandler(socketserver.StreamRequestHandler):
 
     def recv(self, connection, buffersize):
         buffer = b''
-        connection.settimeout(2)
+        connection.settimeout(0.5)
         try:
             while True:
                 data = connection.recv(buffersize)
