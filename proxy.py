@@ -16,15 +16,45 @@ class ProxyHandler(socketserver.StreamRequestHandler):
                                        socket.TCP_NODELAY, True)
         
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
-        
-
-    def handle(self):
         self.client.connect(self.remote_address)
         
+    def handle(self):
+        while True:
+            try:
+                data = self.recv(self.connection, 8192)
+            except socket.timeout as error:
+                pass
 
+            try:
+                self.send(self.client, data)
+            except Exception as error:
+                pass
+
+            try:
+                data = self.recv(self.client, 8192)
+                self.send(self.connection, data)
+            except Exception as error:
+                pass
+                
     def finish(self):
         pass
+
+    def send(self, connection, data):
+        connection.send(data)
+
+    def recv(self, connection, buffersize):
+        buffer = b''
+        connection.settimeout(2)
+        try:
+            while True:
+                data = connection.recv(buffersize)
+                if not data:
+                    break
+                buffer += data
+        except Exception as error:
+            pass
+        return buffer
+
 
 class ProxyServer(socketserver.ThreadingTCPServer):
     def __init__(self, server_address, RequestHandlerClass, remote_address, bind_and_activate=True):
@@ -33,5 +63,18 @@ class ProxyServer(socketserver.ThreadingTCPServer):
         
 
     
+
+if __name__ == '__main__':
+    server_address = ('localhost', 2020)
+    remote_address = ('localhost', 8080)
+
+    server = ProxyServer(server_address, ProxyHandler, remote_address)
+    server.serve_forever()
+
+
+
+
+
+
     
     
