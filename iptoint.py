@@ -13,3 +13,6 @@ def test():
     print(integer)
     address = int2ip(integer)
     print(address)
+
+if __name__ == '__main__':
+    test()
