@@ -13,6 +13,8 @@ def recvall(sock, length):
 
 def server(interface, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    #立即使用TIME_WAIT状态的socket
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind((interface, port))
     sock.listen(5)
