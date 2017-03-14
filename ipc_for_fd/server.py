@@ -26,4 +26,4 @@ def server(work_address, port):
         client.close()
 
 
-        
+server(('', 8000), 8080)     
