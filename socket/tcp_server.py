@@ -2,6 +2,9 @@ import os
 import random
 import socket
 
+# 套接字的半开状态
+# socket.SHUT_WD
+
 def recvall(sock, length):
     data = b''
     while len(data) < length:
